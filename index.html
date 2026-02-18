@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Signalements anonymes EMG GABON - Plateforme officielle pour étudiants">
+    <meta name="author" content="EMG GABON">
+    <meta property="og:title" content="EMG Plaintes | Signalements Anonymes">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <title>EMG Plaintes | Gestion des Plaintes Anonymes</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <img src="Logo officiel EMGP.png" alt="EMG Logo" class="nav-logo">
+            <div class="nav-links">
+                <button class="nav-btn" onclick="showSection('login')">
+                    <i class="fas fa-user-circle"></i> Connexion
+                </button>
+                <span class="user-status" id="userStatus">Anonyme</span>
+                <button class="logout-btn" id="logoutBtn" style="display: none;" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i> Déconnexion
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Section Inscription/Connexion -->
+    <section id="loginSection" class="auth-section hidden">
+        <div class="auth-tabs">
+            <button class="tab-btn active" id="inscriptionTabBtn" onclick="switchTab('inscription')">Inscription</button>
+            <button class="tab-btn" id="connexionTabBtn" onclick="switchTab('connexion')">Connexion</button>
+        </div>
+        
+        <div class="auth-container">
+            <!-- Onglet INSCRIPTION -->
+            <div id="inscriptionTab" class="auth-tab active">
+                <div class="auth-icon">
+                    <i class="fas fa-user-plus"></i>
+                </div>
+                <h2>Créer un compte</h2>
+                <p>Rejoignez la plateforme EMG Plaintes</p>
+                
+                <form id="inscriptionForm">
+                    <div class="input-group double">
+                        <input type="text" id="nom" placeholder="Nom *" required>
+                        <input type="text" id="prenom" placeholder="Prénom *" required>
+                    </div>
+                    <div class="input-group double">
+                        <input type="text" id="filiere" placeholder="Filière *" required>
+                        <input type="text" id="matricule" placeholder="Matricule *" required>
+                    </div>
+                    <div class="input-group">
+                        <label>
+                            <input type="checkbox" id="anonymat" checked> 
+                            <span>Mode anonyme (Cocher pour cacher mon identité sur les plaintes)</span>
+                        </label>
+                    </div>
+                    <div class="input-group double">
+                        <input type="email" id="email" placeholder="Email *" required>
+                        <input type="password" id="password" placeholder="Mot de passe *" required>
+                    </div>
+                    <button type="submit" class="submit-btn">
+                        <i class="fas fa-user-plus"></i> S'inscrire
+                    </button>
+                </form>
+            </div>
+
+            <!-- Onglet CONNEXION -->
+            <div id="connexionTab" class="auth-tab">
+                <div class="auth-icon">
+                    <i class="fas fa-sign-in-alt"></i>
+                </div>
+                <h2>Se connecter</h2>
+                <p>Accès rapide à vos signalements</p>
+                
+                <form id="connexionForm">
+                    <div class="input-group">
+                        <input type="text" id="conn_matricule" placeholder="Matricule *" required>
+                    </div>
+                    <div class="input-group">
+                        <label>
+                            <input type="checkbox" id="conn_anonymat" checked> 
+                            <span>Mode anonyme pour cette session</span>
+                        </label>
+                    </div>
+                    <button type="submit" class="submit-btn">
+                        <i class="fas fa-sign-in-alt"></i> Se connecter
+                    </button>
+                    <a href="#" class="forgot-link" onclick="switchTab('inscription')">Pas de compte ? Inscrivez-vous</a>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contenu principal -->
+    <main id="mainContent" class="hidden">
+        <header class="hero-header">
+            <img src="Logo officiel EMGP.png" alt="EMG Logo" class="hero-logo">
+            <div class="hero-text">
+                <h1><span class="gradient-text">EMG</span> Plaintes</h1>
+                <p>Signalez vos problèmes de manière <strong>anonyme</strong> et <strong>sécurisée</strong></p>
+                <div class="stats">
+                    <span><i class="fas fa-shield-alt"></i> 100% Anonyme</span>
+                    <span><i class="fas fa-lock"></i> Sécurisé</span>
+                </div>
+            </div>
+        </header>
+
+        <div class="main-grid">
+            <!-- Formulaire de signalement -->
+            <section class="form-section slide-in">
+                <h2><i class="fas fa-bug"></i> Signaler un problème</h2>
+                <form id="incidentForm">
+                    <div class="input-group">
+                        <input type="text" id="titre" placeholder="Titre du problème" required>
+                    </div>
+                    <div class="input-group">
+                        <select id="type" required>
+                            <option value=""><h3>Choisir le type</h3></option>
+                            <option value="Conflit de salle">Conflit de salle</option>
+                            <option value="Salle informatique HS">Salle informatique HS</option>
+                            <option value="Matériel défectueux">Matériel défectueux</option>
+                            <option value="Problème réseau">Problème réseau</option>
+                            <option value="Problème administration">Problème administration</option>
+                            <option value="Problème scolarité">Problème scolarité</option>
+                            <option value="Autres problèmes">Autres problèmes</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <textarea id="description" placeholder="Décrivez le problème en détail..." required></textarea>
+                    </div>
+                    <div class="urgency-selector">
+                        <label>Urgence:</label>
+                        <select id="urgence">
+                            <option value="Moyenne">Moyenne</option>
+                            <option value="Haute">Haute</option>
+                            <option value="Critique">Critique</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="submit-btn">
+                        <i class="fas fa-paper-plane"></i> Envoyer anonymement
+                    </button>
+                </form>
+            </section>
+
+            <!-- Liste des incidents -->
+            <section class="list-section slide-in">
+                <h2><i class="fas fa-list"></i> Incidents signalés <span id="count"></span></h2>
+                <div class="search-filter">
+                    <input type="text" id="search" placeholder="Rechercher...">
+                    <select id="filterType">
+                        <option value="">Tous types</option>
+                        <option value="Conflit de salle">Conflit de salle</option>
+                        <option value="Salle informatique HS">Salle informatique HS</option>
+                        <option value="Matériel défectueux">Matériel défectueux</option>
+                        <option value="Problème réseau">Problème réseau</option>
+                        <option value="Problème administration">Problème administration</option>
+                        <option value="Problème scolarité">Problème scolarité</option>
+                    </select>
+                </div>
+                <ul id="incidentList"></ul>
+                <div id="noIncidents" class="empty-state">Aucun incident signalé pour le moment</div>
+            </section>
+        </div>
+    </main>
+
+    <!-- FOOTER LÉGAL NOUVEAU -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p><i class="fas fa-shield-alt"></i> © 2026 EMG Plaintes | EM GABON - Signalements 100% anonymes</p>
+            <div class="legal-links">
+                <a href="mentions-legales.html">Mentions Légales</a> |
+                <a href="confidentialite.html">Confidentialité</a> |
+                <a href="cgu.html">CGU</a>
+            </div>
+            <p class="footer-small">Plateforme officielle EMG Plaintes</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
